@@ -63,7 +63,7 @@ function checkWin(board1, player) {
 function gameOver(gameWon) {
 	for (let index of winCombos[gameWon.index]) {
 		document.getElementById(index).style.backgroundColor =
-			gameWon.player == player1 ? "blue" : "red";
+			gameWon.player == player1 ? "rgb(135,206,235)" : "rgb(240,128,128)";
 	}
 	for (var i = 0; i < cells.length; i++) {
 		cells[i].removeEventListener('click', turnClick, false);
