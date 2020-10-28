@@ -10,7 +10,7 @@
 	<link rel="stylesheet" type="text/css" href="./css/style.css">
 
 	
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<nav class="navbar navbar-expand-lg navbar-light bg-light nav-bg-style">
 	  <a class="navbar-brand" href="index.html">Chill Zone</a>
 	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 	    <span class="navbar-toggler-icon"></span>
@@ -115,12 +115,14 @@
 			    <div class="modal-content">
 			      <div class="modal-header">
 			        <h5 class="modal-title" id="exampleModalLongTitle">Result</h5>
-			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			        <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 			          <span aria-hidden="true">&times;</span>
-			        </button>
+			        </button>-->
 			      </div>
-			      <div id="modalBody" class="modal-body">
-			        
+			      <div class="modal-body">
+			      	<div id="modalBody" class="text-center"></div>
+			      	<div id="modalBodywin" class="alert alert-success text-center" role="alert"></div>
+			      	<div id="modalBodyloss" class="alert alert-danger text-center" role="alert"></div>
 			      </div>
 			    </div>
 			  </div>
@@ -128,7 +130,7 @@
 		</div>
 
 		<div id="restartGame" class="mt-6 d-flex justify-content-center">
-			<button onClick="startGame()" id="playagain"  type="button" class="mt-5 btn btn-outline-success">Play Again !</button>
+			<button onClick="startGame()" id="playagain"  type="button" class="mt-5 btn btn btn-info">Play Again !</button>
 			<script> document.getElementById("playagain").style.display = "none";</script>
 		</div>
 	</div>

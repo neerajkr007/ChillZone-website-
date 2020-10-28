@@ -1,5 +1,18 @@
+body{
+	background: rgb(2,0,36);
+	background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(63,125,6,1) 0%, rgba(55,136,38,1) 20%, rgba(0,212,255,1) 100%);
+}
 .mt-6{
 	margin-top: 50px;
+}
+
+.mb-6{
+	margin-bottom: 150px
+}
+
+.nav-bg-style{
+	background: rgb(2,0,36);
+	background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(63,125,6,1) 0%, rgba(55,136,38,1) 20%, rgba(0,212,255,1) 100%);
 }
 
 td{
