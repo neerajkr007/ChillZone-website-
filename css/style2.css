@@ -1,0 +1,54 @@
+body{
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(63,125,6,1) 0%, rgba(55,136,38,1) 20%, rgba(0,212,255,1) 100%);
+}
+.mt-6{
+    margin-top: 50px;
+}
+
+.mb-6{
+    margin-bottom: 150px;
+}
+
+.cardsize{
+    height: 250px;
+}
+
+.nav-bg-style{
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(63,125,6,1) 0%, rgba(55,136,38,1) 20%, rgba(0,212,255,1) 100%);
+}
+
+.darktheme{
+    background: rgb(44, 47, 51);
+}
+
+input{
+            font-size: 17px;
+            margin-top: 3px;
+            margin-bottom: 3px;
+            margin-left: 1px;
+            margin-right: 1px;
+            border: 1px solid black;
+        }
+
+table { 
+    border-collapse: collapse; 
+    font-family: Calibri, sans-serif; }
+
+
+colgroup, tbody { 
+    border: solid medium; }
+
+
+td { border: solid thin; 
+    text-align: center;
+    vertical-align: middle;
+    height: 50px;
+    width: 50px;
+    font-size: 35px;
+    cursor: pointer;
+    text-align: center; 
+    padding: 0; 
+
+    }
