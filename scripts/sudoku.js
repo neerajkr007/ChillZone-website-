@@ -7,31 +7,33 @@ var notfirsttime = false;
 for (var i = 0; i < mat.length; i++) { 
     mat[i] = new Array(9); 
 } 
+
+
+var deletedElements = new Array(K);
+var deletedPosi = new Array(K);
+
+
+for (var i = 0; i < deletedPosi.length; i++) {
+	deletedPosi[i] = new Array(2);
+}
+
+
 function fillValues() 
     { 
-        // Fill the diagonal of SRN x SRN matrices 
         fillDiagonal(); 
-  
-        // Fill remaining blocks 
         fillRemaining(0, SRN);
-  
-        // Remove Randomly K digits to make game 
         removeKDigits(); 
     } 
-  
-    // Fill the diagonal SRN number of SRN x SRN matrices 
+
+
 function fillDiagonal() 
     { 
   
         for (var i = 0; i<N; i=i+SRN) 
-  
-            // for diagonal box, start coordinates->i==j 
             fillBox(i, i); 
     } 
 
 
-  
-    // Fill a 3 x 3 matrix. 
 function fillBox(row,col) 
     { 
         var num; 
@@ -52,6 +54,7 @@ function fillBox(row,col)
         //console.log(mat); 
     } 
 
+
 function unUsedInBox(rowStart, colStart, num) 
     { 
         for (var i = 0; i<SRN; i++) 
@@ -60,21 +63,23 @@ function unUsedInBox(rowStart, colStart, num)
                     return false; 
         return true; 
     } 
-///BE AWARE OF BRACKETS
+
+
+//BE AWARE OF BRACKETS
 function randomGenerator(num) 
     { 
         return Math.floor((Math.random()*num+1)); 
     } 
   
-    // Check if safe to put in cell 
+    
 function CheckIfSafe( i, j, num) 
     { 
         return (unUsedInRow(i, num) && 
                 unUsedInCol(j, num) && 
                 unUsedInBox(i-i%SRN, j-j%SRN, num)); 
     } 
-  
-    // check in the row for existence 
+
+
 function unUsedInRow(i, num) 
     { 
         for (var j = 0; j<N; j++) 
@@ -83,7 +88,7 @@ function unUsedInRow(i, num)
         return true; 
     } 
   
-    // check in the row for existence 
+
 function unUsedInCol( j, num) 
     { 
         for ( var i = 0; i<N; i++) 
@@ -92,8 +97,9 @@ function unUsedInCol( j, num)
         return true; 
     } 
 
-function fillRemaining(i,j) //0,3
-    {//  System.out.println(i+" "+j); 
+
+function fillRemaining(i,j)
+    {
         if (j>=N && i<N-1) 
         { 
             i = i + 1; 
@@ -134,75 +140,127 @@ function fillRemaining(i,j) //0,3
                 mat[i][j] = 0; 
             } 
         } 
+        //console.log(mat);
         return false; 
     } 
 
-  
-    // Remove the K no. of digits to 
-    // complete game 
+
 function removeKDigits() 
     { 
         var count = K; 
         while (count != 0) 
         { 
             var cellId = randomGenerator((N*N)); 
-  
-            // System.out.println(cellId); 
-            // extract coordinates i  and j 
             var i = Math.floor(cellId/N);
             var j = cellId%9; 
             if (j != 0) {
                 j = j - 1; 
             }
-  
-            // System.out.println(i+" "+j); 
             if (i==9) {
                 	
             if (mat[i-1][j] != 0) 
             { 
-                count--; 
+            	deletedPosi[K-count][0] = i-1;
+            	deletedPosi[K-count][1] = j;
+            	deletedElements[K-count] = mat[i-1][j];
+                count--;
                 mat[i-1][j] = "";
             } }
             else{
             	if (mat[i][j] != 0) 
             { 
+            	deletedPosi[K-count][0] = i;
+            	deletedPosi[K-count][1] = j;
+            	deletedElements[K-count] = mat[i][j];
                 count--; 
                 mat[i][j] = "";
             } 
             }
         } 
     } 
-				
 
 
 function startGame(){
-	if(notfirsttime){
+	
+		if(notfirsttime){
 			for (var i = 0; i < 9; i++) 
 			{
 				for(var j = 0; j<9; j++)
 				{
-					//if(mat[i][j]==null){
-						//document.getElementById(i*9 + j + 1).innerText = 0;
-					//}
-					//else{
-						mat[i][j] = null;
-					//}
+                    mat[i][j] = null;
+                    document.getElementById(i*9 + j + 1).style.background = "none";
 				}
 			}
 		}
-	fillValues();
-	for (var i = 0; i < 9; i++) 
-	{
-		for(var j = 0; j<9; j++)
-		{
-			//if(mat[i][j]==null){
-				//document.getElementById(i*9 + j + 1).innerText = 0;
-			//}
-			//else{
-				document.getElementById(i*9 + j + 1).innerText = mat[i][j];
-			//}
+		else{
+			document.getElementById("restartButton").innerText = "New Game";
 		}
-	}
-	notfirsttime = true;
+		fillValues();
+		//console.log(deletedPosi);
+		//console.log(deletedElements);
+		for (var i = 0; i < 9; i++) 
+		{
+			for(var j = 0; j<9; j++)
+			{
+				document.getElementById(i*9 + j + 1).innerText = mat[i][j];
+			}
+		}
+		makeusable();
+		notfirsttime = true;
 }
 
+
+
+function makeusable()
+{
+    var m;
+    var n;
+    //console.log(deletedPosi.length);
+	for(var i = 0; i < deletedPosi.length; i++){
+        var input = document.createElement("input");
+        input.type = "number";
+        input.maxLength = 1;
+        input.oninput="this.value=this.value.slice(0,this.maxLength)"
+        input.max = "9";
+        input.min = "1";
+        m = deletedPosi[i][0];
+        n = deletedPosi[i][1];
+        //console.log(m,n);
+        //console.log(input.maxLength);
+        document.getElementById(m*9 + n + 1).appendChild(input);
+    }
+    document.getElementById("start").style.display = "none";
+    document.getElementById("check").style.display = "flex";
+    document.getElementById("restartButton").style.display = "flex";
+
+}
+
+
+function check()
+{
+    for(var i = 1; i<=81;i++)
+    {
+        
+        //console.log(document.getElementById(1).childNodes);
+        //console.log(document.getElementById(2).childElementCount);
+        try {
+            document.getElementById(i).onblur(document.getElementById(i).nodeValue = document.getElementById(i).nodeValue/(Math.pow(10, (document.getElementById(i).nodeValue.length))));
+          }
+          catch(err) {
+              if(err == "TypeError: Cannot read property 'length' of null")
+                    alert("please fill the full table");
+                    break;
+          }
+    }
+    var m;
+    var n;
+    for(var i = 0; i<deletedElements.length; i++)
+    {
+        m = deletedPosi[i][0];
+        n = deletedPosi[i][1];
+        //console.log(document.getElementById(m*9 + n + 1).firstChild.nodeValue);
+        if(document.getElementById(m*9 + n + 1).firstChild.value != deletedElements[i]){
+            document.getElementById(m*9 + n + 1).style.background = "red";
+        }
+    }
+}

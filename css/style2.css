@@ -15,22 +15,35 @@ body{
 }
 
 .nav-bg-style{
+    border-bottom: 1px solid black;
     background: rgb(2,0,36);
     background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(63,125,6,1) 0%, rgba(55,136,38,1) 20%, rgba(0,212,255,1) 100%);
 }
+
 
 .darktheme{
     background: rgb(44, 47, 51);
 }
 
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    margin: 0; 
+    
+}
 input{
-            font-size: 17px;
-            margin-top: 3px;
-            margin-bottom: 3px;
-            margin-left: 1px;
-            margin-right: 1px;
-            border: 1px solid black;
-        }
+    font-size: 30px;
+    text-align: center;
+    vertical-align: middle;
+    border: none;
+    color: white;
+    height: 45px;
+    width: 45px;
+    background: transparent;
+    
+}
+
 
 table { 
     border-collapse: collapse; 

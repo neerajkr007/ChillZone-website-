@@ -145,10 +145,19 @@
 			</div>
 		</div>
 		<div class="mt-6 d-flex justify-content-center">
-			<button type="button" class="btn btn-info" onClick="startGame()">start game!</button>
+			<button id="start" type="button" class="btn btn-info" onClick="startGame()">start game!</button>
 		</div>
-	</div>
-	
+		<div class=" d-flex justify-content-center">
+			<button id="check" type="button" class="btn btn-info" onClick="check()">Finish!</button>
+		</div>
+		<div class="mt-6 d-flex justify-content-center">
+			<button id="restartButton" type="button" class="btn btn-info" onClick="startGame()">start game!</button>
+		</div>
+		<script>
+			document.getElementById("check").style.display = "none";
+			document.getElementById("restartButton").style.display = "none";
+		</script>
+	</div>	
 	
 
 
