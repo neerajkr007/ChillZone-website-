@@ -8,14 +8,27 @@ for (var i = 0; i < mat.length; i++) {
     mat[i] = new Array(9); 
 } 
 
-
-var deletedElements = new Array(K);
-var deletedPosi = new Array(K);
-
-
-for (var i = 0; i < deletedPosi.length; i++) {
-	deletedPosi[i] = new Array(2);
+function defineK()
+{
+    console.log("yo");
+    if(document.getElementById("easy").checked)
+    {
+        //console.log(document.getElementById("easy").value);
+        K = 30;
+    }
+    else if(document.getElementById("intermediate").checked)
+    {
+        K = 40;
+    }
+    else if(document.getElementById("tough").checked)
+    {
+        K = 45;
+    }
+    startGame();
 }
+
+var deletedElements;
+var deletedPosi;
 
 
 function fillValues() 
@@ -148,6 +161,7 @@ function fillRemaining(i,j)
 function removeKDigits() 
     { 
         var count = K; 
+        console.log(count);
         while (count != 0) 
         { 
             var cellId = randomGenerator((N*N)); 
@@ -181,7 +195,13 @@ function removeKDigits()
 
 
 function startGame(){
-	
+    deletedElements = new Array(K);
+    deletedPosi = new Array(K);
+    for (var i = 0; i < deletedPosi.length; i++) 
+    {
+        deletedPosi[i] = new Array(2);
+    }
+    document.getElementById("Sudokutable").style.display = "flex";
 		if(notfirsttime){
 			for (var i = 0; i < 9; i++) 
 			{
@@ -194,7 +214,8 @@ function startGame(){
 		}
 		else{
 			document.getElementById("restartButton").innerText = "New Game";
-		}
+        }
+        //console.log(typeof K);
 		fillValues();
 		//console.log(deletedPosi);
 		//console.log(deletedElements);
@@ -219,8 +240,6 @@ function makeusable()
 	for(var i = 0; i < deletedPosi.length; i++){
         var input = document.createElement("input");
         input.type = "number";
-        input.maxLength = 1;
-        input.oninput="this.value=this.value.slice(0,this.maxLength)"
         input.max = "9";
         input.min = "1";
         m = deletedPosi[i][0];
@@ -238,29 +257,36 @@ function makeusable()
 
 function check()
 {
-    for(var i = 1; i<=81;i++)
-    {
-        
-        //console.log(document.getElementById(1).childNodes);
-        //console.log(document.getElementById(2).childElementCount);
-        try {
-            document.getElementById(i).onblur(document.getElementById(i).nodeValue = document.getElementById(i).nodeValue/(Math.pow(10, (document.getElementById(i).nodeValue.length))));
-          }
-          catch(err) {
-              if(err == "TypeError: Cannot read property 'length' of null")
-                    alert("please fill the full table");
-                    break;
-          }
-    }
     var m;
     var n;
+    var flag = false;
+    var flag2 = false;
     for(var i = 0; i<deletedElements.length; i++)
     {
         m = deletedPosi[i][0];
         n = deletedPosi[i][1];
-        //console.log(document.getElementById(m*9 + n + 1).firstChild.nodeValue);
+        if(document.getElementById(m*9 + n + 1).firstChild.value == ""){
+            document.getElementById(m*9 + n + 1).style.background = "red";
+            flag2 = true;
+        }
+        if(flag2 && i == deletedElements.length-1)
+        {
+            alert("please fill the full table");
+        }
         if(document.getElementById(m*9 + n + 1).firstChild.value != deletedElements[i]){
             document.getElementById(m*9 + n + 1).style.background = "red";
+            flag = false;
         }
+        else{
+            document.getElementById(m*9 + n + 1).style.background = "transparent";
+            flag = true;
+        }
+        
     }
+    if(flag)
+    {
+        console.log("game over");
+        $('#endgameModal').modal('toggle');
+    }
+    
 }
