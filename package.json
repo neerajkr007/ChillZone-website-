@@ -8,9 +8,6 @@
     "socketio": "^1.0.0"
   },
   "devDependencies": {},
-  "scripts": {
-    "start": "app.js"
- },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/neerajkr007/chillZone-website-.git"
