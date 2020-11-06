@@ -156,6 +156,19 @@ function gameLogic(){
 	if(p2score === 5 || p1score === 5)
 	{
 		document.getElementById("playagain").style.display = "flex";
+		if(p1score === 5){
+			document.getElementById("modalBodywin").style.display = "flex";
+			document.getElementById("modalBodywin").innerHTML = "You Win !!!";
+			setTimeout(function(){$('#endgameModal').modal('toggle')}, 500);
+			setTimeout(function(){$('#endgameModal').modal('toggle')}, 2000);
+		}
+		else
+		{
+			document.getElementById("modalBodyloss").style.display = "flex";
+			document.getElementById("modalBodyloss").innerHTML = "You Lost !";
+			setTimeout(function(){$('#endgameModal').modal('toggle')}, 500);
+			setTimeout(function(){$('#endgameModal').modal('toggle')}, 2000);
+		}
 	}
 	else
 	{
