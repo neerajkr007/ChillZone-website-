@@ -18,14 +18,14 @@ const server = http.createServer((req, res)=>{
     if(url == '/'){
         res.end(home);
     }
-    else if(url == '/Sudoku'){
-        res.end(game3);
-    }
-    else if(url == '/Tic Tac Toe'){
+    else if(url == '/game1.html'){
         res.end(game1);
     }
-    else if(url == '/game2'){
+    else if(url == '/game2.html'){
         res.end(game2);
+    }
+    else if(url == '/game3.html'){
+        res.end(game3);
     }
 
     else{
