@@ -2,14 +2,14 @@
   "name": "chillZone-website-",
   "version": "1.0.0",
   "description": "A basic website with multiple small games made with html, css, js and bootstrap",
-  "main": "index.js",
+  "main": "app.js",
   "dependencies": {
     "express": "^4.17.1",
     "socketio": "^1.0.0"
   },
   "devDependencies": {},
   "scripts": {
-    "start": "index.html"
+    "start": "nodemon server.js"
  },
   "repository": {
     "type": "git",
