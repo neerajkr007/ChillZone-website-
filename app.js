@@ -8,7 +8,7 @@ app.get('/', (req, res) =>
 });
 
 
-serv.listen(3000);
+serv.listen(process.env.PORT || 3000);
 
 
 /*console.log("start");
