@@ -2,13 +2,16 @@ const express = require('express');
 const app = express();
 const serv = require('http').Server(app);
 
+
+
 app.get('/', (req, res) =>
 {
     res.sendFile(__dirname + '/index.html');
-});
+}); 
 
+app.use('/', express.static(__dirname + '/public'));
 
-serv.listen(3000);
+serv.listen(process.env.PORT || 3000);
 
 
 /*console.log("start");
