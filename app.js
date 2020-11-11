@@ -1,7 +1,6 @@
 console.log("start");
 const http = require('http');
 const fs = require('fs');
-const hostname = 'chillzone-website.herokuapp.com';
 const port = 3000;
 const home = fs.readFileSync('./index.html');
 const about = fs.readFileSync('./notice.html');
@@ -34,7 +33,7 @@ const server = http.createServer((req, res)=>{
     }
 });
 
-server.listen(port, hostname, () => {
+server.listen(port, () => {
     //console.log(`Server running at http://${hostname}:${port}/`);
   });
 
