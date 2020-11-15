@@ -3,12 +3,16 @@
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Stone paper scissors</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.1/socket.io.js"></script>
+	
 </head>
 <body>
+
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<link rel="stylesheet" type="text/css" href="/css/style2.css">
 
 	
 	<nav class="navbar navbar-expand-lg navbar-light bg-light nav-bg-style">
@@ -54,7 +58,7 @@
 		<div id="gameModeMenu">
 			<div class="row mt-6">
 				<div class="col-md-4 offset-md-4 text-center">
-					<button type="button" id="modeButton" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+					<button type="button" id="modeButton" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onClick='document.getElementById("multiOptions").style.display = "none";'>
 			 		 	Choose opponent
 					</button>
 				</div>
@@ -70,19 +74,56 @@
 			        </button>
 			      </div>
 			      <div class="modal-body">
-			        <!--<button type="button"  class="btn btn-outline-success btn-md"   >vs player</button>-->
-			        <button type="button"  class="btn btn-outline-danger btn-md"    >  vs AI  </button>
-			      </div>
+					  <div>
+						<button type="button" onClick='gamemode = 1; document.getElementById("multiOptions").style.display = "flex";' class="btn btn-outline-success btn-md"   >vs player</button>
+						<button type="button" onClick='gamemode = 0; document.getElementById("multiOptions").style.display = "none";' class="btn btn-outline-danger btn-md">  vs AI  </button>
+					  </div>
+					  <div id="multiOptions" class="mt-2">
+						<button type="button" onClick="socket.emit('host');" data-dismiss="modal" class="btn btn-outline-success btn-md mr-1">  Host game  </button>
+						<button type="button" onClick="socket.emit('join');" data-dismiss="modal" data-toggle="modal" data-target="#exampleModal2" class="btn btn-outline-success btn-md">  join game  </button>
+					  </div>
+				  </div>
 			      <div class="modal-footer">
-			        <button type="button" id="start" class="btn btn-secondary" onClick="gamemodechosen()" data-dismiss="modal">Start</button>
+			        <button type="button" id="start" class="btn btn-secondary" onClick="gamemodechosen();" data-dismiss="modal">Start</button>
 			        <button type="button" id="close" class="btn btn-secondary"  data-dismiss="modal">Close</button>
 			      </div>
 			    </div>
 			  </div>
 			</div>
 		</div>
-
+		<div>
+			<h4 id="gameId" class="display-5"></h4>
+			<script>document.getElementById("gameId").style.display = "none";</script>
+		</div>
+		<div id="enterId">
+			<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+				  <div class="modal-content">
+					<div class="modal-header">
+					  <h5 class="modal-title" id="exampleModalLabel2">Enter game id</h5>
+					  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					  </button>
+					</div>
+					<div class="modal-body">
+						<label for="enteredId">Id - </label>
+						<input type="number" id="enteredId" style="border: solid thin;
+						margin: auto;
+						font-size: medium;
+						color: black;
+						height: auto;
+						width: auto;">
+					</div>
+					<div class="modal-footer">
+					  <button type="button" id="join" class="btn btn-secondary" onClick='tryJoin();' >Join</button>
+					  <button type="button" id="cancel" class="btn btn-secondary"  data-dismiss="modal">Close</button>
+					</div>
+				  </div>
+				</div>
+			  </div>
+		</div>
 		<div id="vsAI" class="row mt-6">
+			
 			<script>
 				document.getElementById("vsAI").style.display = "none";
 			</script>
@@ -139,8 +180,7 @@
 	</div>
 
 
-
-	<script src="/scripts/stone paper scissors.js"></script>
+	<script src="/scripts/stone_paper_scissors.js"></script>
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

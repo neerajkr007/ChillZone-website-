@@ -1,23 +1,31 @@
-var chosenId;
+const socket = io.connect();
+var chosenIdP1;
 var aiId;
+var roomId = 0;
 var p1score = 0;
 var p2score = 0;
 var notfirsttime = false;
-var countP1 = 0;
-var countP2 = 0;
+var gamemode = 0;
 function begin(){
 	document.getElementById("paper2").style.display = "none";
 	document.getElementById("stone2").style.display = "none";
 	document.getElementById("scissor2").style.display = "none";
 }
 
+function chooseMultiMode(){
+	document.getElementById("")
+}
+
 function gamemodechosen(){
 	document.getElementById("modeButton").style.display = "none";
-	startGame();
-
+	//console.log(gamemode);
+	//module.exports.gamemode = gamemode;
+	if(gamemode === 0){
+		startGame();
+	}
 }
 function paper1clicked(){
-		chosenId = 0;
+		chosenIdP1 = 0;
 		document.getElementById("chosenName1").innerHTML = "Paper";
 		document.getElementById("stone1").style.display = "none";
 		document.getElementById("scissor1").style.display = "none";
@@ -25,7 +33,7 @@ function paper1clicked(){
 }
 
 function stone1clicked(){
-	chosenId = 1;
+	chosenIdP1 = 1;
 		document.getElementById("chosenName1").innerHTML = "Stone";
 		document.getElementById("paper1").style.display = "none";
 		document.getElementById("scissor1").style.display = "none";
@@ -33,7 +41,7 @@ function stone1clicked(){
 }
 
 function scissor1clicked(){
-	chosenId = 2;
+	chosenIdP1 = 2;
 		document.getElementById("chosenName1").innerHTML = "Scissor";
 		document.getElementById("paper1").style.display = "none";
 		document.getElementById("stone1").style.display = "none";
@@ -74,8 +82,8 @@ function gameLogic(){
 	document.getElementById("modalBodywin").style.display = "none";
 	document.getElementById("modalBodyloss").style.display = "none";
 	//console.log(aiId);
-	//console.log(chosenId);
-	if(chosenId === 0){
+	//console.log(chosenIdP1);
+	if(chosenIdP1 === 0){
 		if(aiId === 0){
 			//document.getElementById("modalBody").style.display = "flex";
 			//document.getElementById("modalBody").innerHTML = "Draw !!";
@@ -101,7 +109,7 @@ function gameLogic(){
 		}
 		//document.getElementById("playagain").style.display = "flex";
 	}
-	if(chosenId === 1){
+	if(chosenIdP1 === 1){
 		if(aiId === 0){
 			p2score++;
 			document.getElementById("score2").innerHTML = "Score - " + p2score;
@@ -127,7 +135,7 @@ function gameLogic(){
 		}
 		//document.getElementById("playagain").style.display = "flex";
 	}
-	if(chosenId === 2){
+	if(chosenIdP1 === 2){
 		if(aiId === 0){
 			p1score++;
 			document.getElementById("score1").innerHTML = "Score - " + p1score;
@@ -184,4 +192,31 @@ function gameLogic(){
 			begin();
 		},2000);
 	}
+} 
+
+
+socket.on("hosted", function(data){
+	//console.log("works1");
+	document.getElementById("modeButton").style.display = "none";
+	document.getElementById("gameId").style.display = "inline-flex";
+	document.getElementById("gameId").outerHTML = "<h4 id='gameId' class='display-5 text-center'></h4>";
+	document.getElementById("gameId").innerHTML = "game id -  "+ data;
+});
+
+function tryJoin(){
+	roomId = document.getElementById("enteredId").value;
+	console.log(roomId);
+	socket.emit("tryJoin", roomId);
 }
+
+
+socket.on("joined", function(){
+	console.log("joined");
+	document.getElementById("modeButton").style.display = "none";
+	document.getElementById("join").setAttribute("data-dismiss", "modal");
+});
+
+socket.on("notJoined", function(){
+	alert("id incorrect !");
+	console.log("nah did not join ");
+});
