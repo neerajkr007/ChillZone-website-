@@ -45,7 +45,7 @@ var SOCKET_LIST = {};
 var PLAYER_LIST = {};
 var Player = function(id){
 	var self = {
-        id:id,
+        id:id, 
 		score: 0,
     }
     return self;
@@ -55,6 +55,7 @@ io.sockets.on('connection', function(socket){
     console.log('socket connected ');
 
     socket.id = Math.floor(Math.random() * (Math.floor(9999) - Math.ceil(1000) + 1) + Math.ceil(1000));
+    
     console.log(socket.id);
     SOCKET_LIST[socket.id] = socket;
     var player = Player(socket.id);
@@ -62,6 +63,8 @@ io.sockets.on('connection', function(socket){
     
     socket.on("host", function(){
         //socket.roomId = Math.floor(Math.random() * (Math.floor(9999) - Math.ceil(1000) + 1) + Math.ceil(1000));
+        socket.join("123456");
+        //console.log(socket.rooms);
         socket.emit("hosted", player.id); 
     });
 
@@ -70,14 +73,20 @@ io.sockets.on('connection', function(socket){
         for(var i in PLAYER_LIST){
             //console.log(PLAYER_LIST[i].id); 
             if(id == PLAYER_LIST[i].id){
+                socket.join("123456");
                 socket.emit("joined"); 
-                return true; 
+                //console.log(typeof id);
+                socket.to("123456").emit("test123"); 
+                //socket.emit("test");
+                return true;  
             } 
         }
         socket.emit("notJoined"); 
     });
 
-
+    // socket.on("test", function(){
+    //     socket.to('123456').emit("test123");
+    // });
     socket.on('disconnect',function(){
         console.log('socket disconnected ');
         delete SOCKET_LIST[socket.id];

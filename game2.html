@@ -93,7 +93,10 @@
 		</div>
 		<div>
 			<h4 id="gameId" class="display-5"></h4>
-			<script>document.getElementById("gameId").style.display = "none";</script>
+			<h5 id="waitingMsg"></h5>
+			<script>document.getElementById("gameId").style.display = "none";
+					document.getElementById("waitingMsg").style.display = "none";
+			</script>
 		</div>
 		<div id="enterId">
 			<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
@@ -115,7 +118,7 @@
 						width: auto;">
 					</div>
 					<div class="modal-footer">
-					  <button type="button" id="join" class="btn btn-secondary" onClick='tryJoin();' >Join</button>
+					  <button type="button" id="join" class="btn btn-secondary" onClick='tryJoin();' data-dismiss="" >Join</button>
 					  <button type="button" id="cancel" class="btn btn-secondary"  data-dismiss="modal">Close</button>
 					</div>
 				  </div>

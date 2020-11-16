@@ -1,4 +1,4 @@
-const socket = io.connect();
+const socket = io();
 var chosenIdP1;
 var aiId;
 var roomId = 0;
@@ -201,6 +201,8 @@ socket.on("hosted", function(data){
 	document.getElementById("gameId").style.display = "inline-flex";
 	document.getElementById("gameId").outerHTML = "<h4 id='gameId' class='display-5 text-center'></h4>";
 	document.getElementById("gameId").innerHTML = "game id -  "+ data;
+	document.getElementById("waitingMsg").style.display = "inline-flex";
+	document.getElementById("waitingMsg").outerHTML = "<h5 id='waitingMsg' class='text-center'> waiting for other player to join...</h5>";
 });
 
 function tryJoin(){
@@ -213,10 +215,17 @@ function tryJoin(){
 socket.on("joined", function(){
 	console.log("joined");
 	document.getElementById("modeButton").style.display = "none";
-	document.getElementById("join").setAttribute("data-dismiss", "modal");
+	$('#exampleModal2').modal('toggle')
+	//document.getElementById("join").data-dismiss =  "modal";
+	//socket.to('123456').emit('test123');
 });
 
 socket.on("notJoined", function(){
 	alert("id incorrect !");
 	console.log("nah did not join ");
+});
+
+socket.on("test123",function(){
+	console.log("other player joined");
+	document.getElementById("waitingMsg").outerHTML = "<h5 id='waitingMsg' class='text-center'> player joined</h5>";
 });
