@@ -76,7 +76,7 @@
 			      <div class="modal-body">
 					  <div>
 						<button type="button" onClick='gamemode = 1; document.getElementById("multiOptions").style.display = "flex";' class="btn btn-outline-success btn-md"   >vs player</button>
-						<button type="button" onClick='gamemode = 0; document.getElementById("multiOptions").style.display = "none";' class="btn btn-outline-danger btn-md">  vs AI  </button>
+						<button type="button" onClick="gamemode = 0; document.getElementById('multiOptions').style.display = 'none'; " class="btn btn-outline-danger btn-md">  vs AI  </button>
 					  </div>
 					  <div id="multiOptions" class="mt-2">
 						<button type="button" onClick="socket.emit('host');" data-dismiss="modal" class="btn btn-outline-success btn-md mr-1">  Host game  </button>
@@ -150,9 +150,9 @@
 				</h3>
 				<h3 id="chosenName2" class="display-5 text-center"><i>choosing...</i></h3>
 						<div id="3icons" class="mt-6 text-center text-justify">
-							<img id="paper2" src="./data/paper.png" alt="" class="mr-2 ml-2" style="height: 100px; width: 80px;">
-							<img id="stone2" src="./data/stone.png" alt="" class="mr-2 ml-2" style="height: 100px; width: 80px;">
-							<img id="scissor2" src="./data/scissor.png" alt="" class="ml-2" style="height: 100px; width: 80px;">
+							<img id="paper2" onClick = "paper2clicked()" src="./data/paper.png" alt="" class="mr-2 ml-2" style="height: 100px; width: 80px;">
+							<img id="stone2" onClick = "stone2clicked()" src="./data/stone.png" alt="" class="mr-2 ml-2" style="height: 100px; width: 80px;">
+							<img id="scissor2" onClick = "scissor2clicked()" src="./data/scissor.png" alt="" class="ml-2" style="height: 100px; width: 80px;">
 						</div>
 			</div>
 		</div>
@@ -178,7 +178,7 @@
 		</div>
 
 		<div id="restartGame" class="mt-6 d-flex justify-content-center">
-			<button onClick="startGame()" id="playagain"  type="button" class="mt-5 btn btn btn-info">Play Again !</button>
+			<button onClick="startGame(); document.getElementById('playagain').style.display = 'none'; " id="playagain"  type="button" class="mt-5 btn btn btn-info">Play Again !</button>
 			<script> document.getElementById("playagain").style.display = "none";</script>
 		</div>
 	</div>

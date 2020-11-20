@@ -46,11 +46,11 @@ var PLAYER_LIST = {};
 var Player = function(id){
 	var self = {
         id:id, 
-		score: 0,
+        score: 0,
+        roomId: "",
     } 
     return self;
 }
-
 //var i = 0;
 var io = require('socket.io')(serv,{});
 
@@ -71,22 +71,32 @@ io.on('connection', function(socket){
         //console.log(Array.from(socket.adapter.rooms.get('room1'))[0]);
         //console.log(socket.to(socket.id)); 
         //console.log(String(socket.id));
+        player.roomId = player.id;
         socket.emit("hosted", String(player.id));  
     });
 
     socket.on("tryJoin", id => {
         for(var i in SOCKET_LIST){
             if(id == SOCKET_LIST[i].id){
-                socket.join(id);
+                socket.join(id);  
+                player.roomId = id;
                 //console.log(socket.adapter.rooms.get(id)); 
                 socket.emit("joined", player.id); 
-                socket.broadcast.emit('test123', Array.from(socket.adapter.rooms.get(id))[0]);
+                startit();
                 return true;   
             }  
         }
         socket.emit("notJoined"); 
     });
     
+    function startit(){
+        socket.broadcast.emit('startGame', Array.from(socket.adapter.rooms.get(player.roomId))[0]);
+    }
+
+    socket.on('values', function(data){
+        socket.broadcast.emit("runlogic", {p1: data.p1, p2: data.p2, id: Array.from(socket.adapter.rooms.get(player.roomId))[0]});
+    });
+
     socket.on('disconnect',function(){
         console.log('socket disconnected ');
         delete SOCKET_LIST[socket.id]; 
