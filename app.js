@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const serv = require('http').Server(app);
+const serv = require('http').createServer(app);
 // var originalfile = fs.readFileSync('../scripts/stone paper scissors.js', 'utf8');
 // fs.writeFileSync('./sps-module.js', originalfile + "\nexports.startGame = startGame;");
 // var sps = require('./sps-module.js');
@@ -47,49 +47,50 @@ var Player = function(id){
 	var self = {
         id:id, 
 		score: 0,
-    }
+    } 
     return self;
 }
-var io = require('socket.io')(serv,{});
-io.sockets.on('connection', function(socket){
-    console.log('socket connected ');
 
-    socket.id = Math.floor(Math.random() * (Math.floor(9999) - Math.ceil(1000) + 1) + Math.ceil(1000));
-    
+//var i = 0;
+var io = require('socket.io')(serv,{});
+
+
+io.on('connection', function(socket){
+    console.log('socket connected ');
+    socket.id = String(Math.floor(Math.random() * (Math.floor(9999) - Math.ceil(1000) + 1) + Math.ceil(1000)));
+    //socket.id = i;
+    //i++; 
     console.log(socket.id);
     SOCKET_LIST[socket.id] = socket;
+    //var keys = Object.keys(SOCKET_LIST);
+    //console.log(userId); 
     var player = Player(socket.id);
 	PLAYER_LIST[socket.id] = player;
-    
     socket.on("host", function(){
-        //socket.roomId = Math.floor(Math.random() * (Math.floor(9999) - Math.ceil(1000) + 1) + Math.ceil(1000));
-        socket.join("123456");
-        //console.log(socket.rooms);
-        socket.emit("hosted", player.id); 
+        socket.join(player.id);
+        //console.log(Array.from(socket.adapter.rooms.get('room1'))[0]);
+        //console.log(socket.to(socket.id)); 
+        //console.log(String(socket.id));
+        socket.emit("hosted", String(player.id));  
     });
 
-    socket.on("tryJoin", function(id){
-        //console.log(SOCKET_LIST.length); 
-        for(var i in PLAYER_LIST){
-            //console.log(PLAYER_LIST[i].id); 
-            if(id == PLAYER_LIST[i].id){
-                socket.join("123456");
-                socket.emit("joined"); 
-                //console.log(typeof id);
-                socket.to("123456").emit("test123"); 
-                //socket.emit("test");
-                return true;  
-            } 
+    socket.on("tryJoin", id => {
+        for(var i in SOCKET_LIST){
+            if(id == SOCKET_LIST[i].id){
+                socket.join(id);
+                //console.log(socket.adapter.rooms.get(id)); 
+                socket.emit("joined", player.id); 
+                socket.broadcast.emit('test123', Array.from(socket.adapter.rooms.get(id))[0]);
+                return true;   
+            }  
         }
         socket.emit("notJoined"); 
     });
-
-    // socket.on("test", function(){
-    //     socket.to('123456').emit("test123");
-    // });
+    
     socket.on('disconnect',function(){
         console.log('socket disconnected ');
-        delete SOCKET_LIST[socket.id];
+        delete SOCKET_LIST[socket.id]; 
 		delete PLAYER_LIST[socket.id];
     });
-});  
+        
+});

@@ -1,4 +1,4 @@
-const socket = io();
+const socket = io.connect();
 var chosenIdP1;
 var aiId;
 var roomId = 0;
@@ -6,10 +6,21 @@ var p1score = 0;
 var p2score = 0;
 var notfirsttime = false;
 var gamemode = 0;
+var joinedId = "";
+var isHost = true;
 function begin(){
-	document.getElementById("paper2").style.display = "none";
-	document.getElementById("stone2").style.display = "none";
-	document.getElementById("scissor2").style.display = "none";
+	if(isHost)
+	{
+		document.getElementById("paper2").style.display = "none";
+		document.getElementById("stone2").style.display = "none";
+		document.getElementById("scissor2").style.display = "none";
+	}
+	else
+	{
+		document.getElementById("paper1").style.display = "none";
+		document.getElementById("stone1").style.display = "none";
+		document.getElementById("scissor1").style.display = "none";
+	}
 }
 
 function chooseMultiMode(){
@@ -196,7 +207,7 @@ function gameLogic(){
 
 
 socket.on("hosted", function(data){
-	//console.log("works1");
+	roomId = data;
 	document.getElementById("modeButton").style.display = "none";
 	document.getElementById("gameId").style.display = "inline-flex";
 	document.getElementById("gameId").outerHTML = "<h4 id='gameId' class='display-5 text-center'></h4>";
@@ -211,21 +222,32 @@ function tryJoin(){
 	socket.emit("tryJoin", roomId);
 }
 
-
-socket.on("joined", function(){
+socket.on("joined", function(id){
+	joinedId = id;
+	isHost = false;
 	console.log("joined");
 	document.getElementById("modeButton").style.display = "none";
 	$('#exampleModal2').modal('toggle')
+	//socket.emit("joinComplete");
 	//document.getElementById("join").data-dismiss =  "modal";
 	//socket.to('123456').emit('test123');
 });
+
 
 socket.on("notJoined", function(){
 	alert("id incorrect !");
 	console.log("nah did not join ");
 });
 
-socket.on("test123",function(){
-	console.log("other player joined");
-	document.getElementById("waitingMsg").outerHTML = "<h5 id='waitingMsg' class='text-center'> player joined</h5>";
+socket.on('test123',(id) => {
+	if(roomId == id && isHost)
+	{
+		document.getElementById("waitingMsg").outerHTML = "<h5 id='waitingMsg' class='text-center'> player joined</h5>";
+		startGame();
+	}
+	else if(roomId == id && !isHost){
+		document.getElementById("waitingMsg").outerHTML = "<h5 id='waitingMsg' class='text-center'> all players joined</h5>";
+		startGame();
+	}
 });
+
