@@ -4,7 +4,9 @@
   "description": "A basic website with multiple small games made with html, css, js and bootstrap",
   "main": "app.js",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "mongoose": "^5.11.0",
     "nodemon": "^2.0.6",
     "socket.io": "^3.0.1"
   },

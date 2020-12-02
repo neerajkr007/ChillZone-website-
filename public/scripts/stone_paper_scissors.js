@@ -331,7 +331,7 @@ socket.on("joined", function(id){
 	joinedId = id;
 	gamemode = 1;
 	isHost = false;
-	console.log("joined");
+	//console.log("joined");
 	document.getElementById("modeButton").style.display = "none";
 	$('#exampleModal2').modal('toggle')
 	//socket.emit("joinComplete");
@@ -341,7 +341,7 @@ socket.on("joined", function(id){
 
 socket.on("notJoined", function(){
 	alert("id incorrect !");
-	console.log("nah did not join ");
+	//console.log("nah did not join ");
 });
 
 socket.on('startGame',(id) => {

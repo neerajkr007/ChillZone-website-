@@ -1,10 +1,15 @@
+require('dotenv').config()
 const express = require('express');
 const app = express();
 const serv = require('http').createServer(app);
-// var originalfile = fs.readFileSync('../scripts/stone paper scissors.js', 'utf8');
-// fs.writeFileSync('./sps-module.js', originalfile + "\nexports.startGame = startGame;");
-// var sps = require('./sps-module.js');
-
+var mongoose = require('mongoose');
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/chillZone-website-', { useNewUrlParser: true }, (error)=>{
+    if(!error)
+        console.log("\t works");
+    else
+        console.log("\t dosent work");
+});
+ 
 
 app.get('/', (req, res) =>
 {
@@ -45,17 +50,16 @@ var SOCKET_LIST = {};
 var PLAYER_LIST = {};
 var Player = function(id){
 	var self = {
-        id:id, 
-        score: 0,
+        id:id,
         roomId: "",
     } 
     return self;
 }
-//var i = 0;
+
 var io = require('socket.io')(serv,{});
 
 
-io.on('connection', function(socket){
+io.sockets.on('connection', function(socket){
     console.log('socket connected ');
     socket.id = String(Math.floor(Math.random() * (Math.floor(9999) - Math.ceil(1000) + 1) + Math.ceil(1000)));
     //socket.id = i;
@@ -68,9 +72,6 @@ io.on('connection', function(socket){
 	PLAYER_LIST[socket.id] = player;
     socket.on("host", function(){
         socket.join(player.id);
-        //console.log(Array.from(socket.adapter.rooms.get('room1'))[0]);
-        //console.log(socket.to(socket.id)); 
-        //console.log(String(socket.id));
         player.roomId = player.id;
         socket.emit("hosted", String(player.id));  
     });
