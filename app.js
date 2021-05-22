@@ -2,13 +2,26 @@ require('dotenv').config()
 const express = require('express');
 const app = express();
 const serv = require('http').createServer(app);
-var mongoose = require('mongoose');
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/chillZone-website-', { useNewUrlParser: true }, (error)=>{
-    if(!error)
-        console.log("\t works");
-    else
-        console.log("\t dosent work");
-});
+
+
+const mongoose = require('mongoose');
+
+const URI = "mongodb+srv://Neeraj_kr:jhuCFHH7h0bsV0iq@cluster0.w0ajk.mongodb.net/defaultDb?retryWrites=true&w=majority";
+const connection = async ()=>{
+    await mongoose.connect(
+    URI, {
+    useNewUrlParser: true, 
+    useUnifiedTopology: true },
+    function(err){
+        if (err){
+            console.log(err)
+            return
+        }
+        mongoose.set('useFindAndModify', false);
+        console.log("db connected")
+    });
+}
+connection();
  
 
 app.get('/', (req, res) =>
@@ -16,27 +29,27 @@ app.get('/', (req, res) =>
     res.sendFile(__dirname + '/index.html');
 }); 
 
-app.get('/index.html', (req, res) =>
+app.get('/index', (req, res) =>
 {
     res.sendFile(__dirname + '/index.html');
 }); 
 
-app.get('/game1.html', (req, res) =>
+app.get('/game1', (req, res) =>
 {
     res.sendFile(__dirname + '/game1.html');
 }); 
 
-app.get('/game2.html', (req, res) =>
+app.get('/game2', (req, res) =>
 {
     res.sendFile(__dirname + '/game2.html');
 }); 
 
-app.get('/game3.html', (req, res) =>
+app.get('/game3', (req, res) =>
 {
     res.sendFile(__dirname + '/game3.html');
 }); 
 
-app.get('/notice.html', (req, res) =>
+app.get('/notice', (req, res) =>
 {
     res.sendFile(__dirname + '/notice.html');
 }); 

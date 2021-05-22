@@ -331,12 +331,8 @@ socket.on("joined", function(id){
 	joinedId = id;
 	gamemode = 1;
 	isHost = false;
-	//console.log("joined");
 	document.getElementById("modeButton").style.display = "none";
 	$('#exampleModal2').modal('toggle')
-	//socket.emit("joinComplete");
-	//document.getElementById("join").data-dismiss =  "modal";
-	//socket.to('123456').emit('test123');
 });
 
 socket.on("notJoined", function(){
